@@ -17,8 +17,12 @@ import android.widget.LinearLayout;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.DialogFragment;
 
+import com.google.android.material.textfield.TextInputLayout;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import Validators.AccountValidator;
 
 
 public class GameBeginDialog extends DialogFragment {
@@ -35,6 +39,9 @@ public class GameBeginDialog extends DialogFragment {
         dialog.activity = activity;
         return dialog;
     }
+
+    private boolean isNameValid = false;
+    private boolean isApostaValid = false;
 
     @NonNull
     @Override
@@ -83,12 +90,26 @@ public class GameBeginDialog extends DialogFragment {
             String value = editText.getText().toString();
             String nom = value.split(";")[0];
             int aposta = Integer.parseInt(value.split(";")[1]);
+            isNameValid = AccountValidator.check_nom(nom.toString());
+            updateForm(isNameValid, gameSettingLayout.findViewById(20000+i), getString(R.string.error_name));
+
+            isApostaValid = AccountValidator.check_aposta(String.valueOf(aposta));
+            updateForm(isApostaValid, gameSettingLayout.findViewById(20000+i), getString(R.string.error_aposta));
+
             noms.add(i,nom);
             apostes.add(i,aposta);
             Log.d(TAG, "noms:"+ noms.toString());
             Log.d(TAG, "apostes:"+ apostes.toString());
         }
         dismiss();
+    }
+
+    private void updateForm(boolean isValid, TextInputLayout textInput, String error_msg) {
+        if (!isValid) {
+            textInput.setError(error_msg);
+        } else {
+            textInput.setErrorEnabled(false);
+        }
     }
 
 
@@ -107,6 +128,7 @@ public class GameBeginDialog extends DialogFragment {
                 try {
                     jugadores = Integer.parseInt(s.toString());
                     for (int i = 0; i < jugadores; i++) {
+
                         EditText nomET = new EditText(rootView.getContext());
                         nomET.setHint(R.string.player_hint);
                         nomET.setId(20000+i);
@@ -119,6 +141,8 @@ public class GameBeginDialog extends DialogFragment {
                 }
             }
         });
+
+
 
 }
 }

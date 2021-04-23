@@ -9,5 +9,8 @@ public class App extends Application {
         public void onCreate() {
             super.onCreate();
             PreferenceProvider.init(this);
+            if(PreferenceProvider.getBanca() == -1){
+                PreferenceProvider.providePreferences.putInt(getString(R.string.banca), 30000);
+            }
         }
 }

@@ -6,4 +6,7 @@
     <string name="seguir">SEGUIR</string>
     <string name="plantarse">Plantarse</string>
     <string name="end">Acabar</string>
+
+    <string name="error_name">Nom no valid</string>
+    <string name="error_aposta">Aposta no valida</string>
 </resources>

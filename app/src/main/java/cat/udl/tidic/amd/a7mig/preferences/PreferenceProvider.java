@@ -8,6 +8,13 @@ public class PreferenceProvider {
     private static String SHARED_PREFERENCES = "mPreferences";
 
     private static SharedPreferences sPreferences;
+    private static SharedPreferences banca;
+
+/*
+    public static Integer getBanca() {
+        return banca;
+    }
+*/
 
     public static SharedPreferences providePreferences() {
         return sPreferences;
