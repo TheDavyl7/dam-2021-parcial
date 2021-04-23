@@ -10,8 +10,8 @@ public class AccountValidator {
 
 
 
-    public static boolean check_aposta(String nom){
-        return patternIsValid(nom, "^(1000|[5-9]|[1-9][0-9][0-9]?)$");
+    public static boolean check_aposta(String aposta){
+        return patternIsValid(aposta, "^(1000|[5-9]|[1-9][0-9][0-9]?)$");
     }
 
 

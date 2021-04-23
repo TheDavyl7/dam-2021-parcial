@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import Validators.AccountValidator;
+import cat.udl.tidic.amd.a7mig.models.Jugador;
 
 
 public class GameBeginDialog extends DialogFragment {
@@ -33,6 +34,7 @@ public class GameBeginDialog extends DialogFragment {
     private int jugadores;
     private View rootView;
     private GameActivity activity;
+    public List<Jugador> jugadors;
 
     public static GameBeginDialog newInstance(GameActivity activity) {
         GameBeginDialog dialog = new GameBeginDialog();
@@ -84,33 +86,44 @@ public class GameBeginDialog extends DialogFragment {
     private void onDoneClicked() {
         List<String> noms = new ArrayList<>();
         List<Integer> apostes = new ArrayList<>();
-
-        for (int i = 0; i < jugadores; i++) {
+        int contador = 0;
+        int i;
+        for (i = 0; i < jugadores; i++) {
             EditText editText = gameSettingLayout.findViewById(20000+i);
             String value = editText.getText().toString();
             String nom = value.split(";")[0];
-            int aposta = Integer.parseInt(value.split(";")[1]);
-            isNameValid = AccountValidator.check_nom(nom.toString());
-            updateForm(isNameValid, gameSettingLayout.findViewById(20000+i), getString(R.string.error_name));
+            String aposta = value.split(";")[1];
+            comprobacion(value);
 
-            isApostaValid = AccountValidator.check_aposta(String.valueOf(aposta));
-            updateForm(isApostaValid, gameSettingLayout.findViewById(20000+i), getString(R.string.error_aposta));
+            if(isNameValid && isApostaValid){
+                noms.add(i,nom);
+                apostes.add(i,Integer.parseInt(aposta));
+                Log.d(TAG, "noms:"+ noms.toString());
+                Log.d(TAG, "apostes:"+ apostes.toString());
+                contador++;
+            }
+            else{
+                editText.setError("Error, algo no esta bien escrito");
+            }
 
-            noms.add(i,nom);
-            apostes.add(i,aposta);
-            Log.d(TAG, "noms:"+ noms.toString());
-            Log.d(TAG, "apostes:"+ apostes.toString());
         }
-        dismiss();
+        if(contador == i) {
+            List<Jugador> jugadors = new ArrayList<>();
+            Jugador jugador = new Jugador(noms.get(0).toString(), Integer.parseInt(apostes.get(0).toString()));
+            jugadors.add(jugador);
+            activity.comienzoJuego(noms, apostes, jugador, jugadors);
+            dismiss();
+        }
     }
 
-    private void updateForm(boolean isValid, TextInputLayout textInput, String error_msg) {
-        if (!isValid) {
-            textInput.setError(error_msg);
-        } else {
-            textInput.setErrorEnabled(false);
-        }
+    private void comprobacion(String value){
+        String[] partes = value.split(";");
+        String nombre = partes[0];
+        String dinero = partes[1];
+        isNameValid = AccountValidator.check_nom(nombre.toString());
+        isApostaValid = AccountValidator.check_aposta(dinero);
     }
+
 
 
     private void addTextWatchers() {

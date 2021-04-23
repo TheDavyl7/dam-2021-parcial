@@ -64,7 +64,7 @@ public class GameEndDialog extends DialogFragment {
         }
 
         TextView resum = new EditText(rootView.getContext());
-        String text = "Banca:  " + PreferenceProvider.providePreferences().getInt("banca",-1) + " euros.";
+        String text = "Banca:  " + PreferenceProvider.providePreferences().getFloat("banca",-1) + " euros.";
         resum.setText(text);
         gameEndLayout.addView(resum);
 
