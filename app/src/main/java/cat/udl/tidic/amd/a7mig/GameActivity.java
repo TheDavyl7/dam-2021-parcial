@@ -35,6 +35,7 @@ public class GameActivity extends AppCompatActivity {
 
     private double puntuacion = 0;
     private int index = 0;
+    public Partida partida;
 
 
     @Override
@@ -50,6 +51,8 @@ public class GameActivity extends AppCompatActivity {
         seguirButton = findViewById(R.id.seguirButton);
 
         cartaFoto = findViewById(R.id.UltimaCarta);
+
+        partida = new Partida();
     }
 
     public void initView(){
@@ -71,7 +74,6 @@ public class GameActivity extends AppCompatActivity {
 
     public void comienzoJuego(List nombres, List apuestas, Jugador player, List players){
 
-        Partida partida = new Partida();
         Carta carta = partida.cogerCarta();
         cartaFoto.setImageResource(carta.getResource());
 
@@ -101,6 +103,8 @@ public class GameActivity extends AppCompatActivity {
                     else {
                         plantarseButton.setEnabled(true);
                         seguirButton.setEnabled(true);
+                        index = 0;
+                        partida = new Partida();
                         puntuacion = 0;
                         finalPartida(players);
                     }
@@ -119,6 +123,8 @@ public class GameActivity extends AppCompatActivity {
             }
             else {
                 puntuacion = 0;
+                index = 0;
+                partida = new Partida();
                 finalPartida(players);
             }
         });

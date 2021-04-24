@@ -24,6 +24,7 @@ import java.util.List;
 
 import Validators.AccountValidator;
 import cat.udl.tidic.amd.a7mig.models.Jugador;
+import cat.udl.tidic.amd.a7mig.models.Partida;
 
 
 public class GameBeginDialog extends DialogFragment {
